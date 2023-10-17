@@ -1,0 +1,5 @@
+{
+  "seed": ["seed", "s"],
+  "file_hash": ["filehash", "file_hash", "file hash", "hash", "fh"],
+  "version": ["version", "v"]
+}
