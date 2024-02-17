@@ -13,7 +13,11 @@ public class OOTRSpoiler {
 
     private JSONObject spoilerJSON; /* Content of spoiler log, in a ready to use JSON.simple object */
 
-    private int worldCount; /* How many worlds this log represents */
+    private long worldCount; /* How many worlds this log represents */
+
+    private String multiworld_err_msg = "This is a multiworld spoiler. " +
+            "Please specify a world with an integer " +
+            "e.g. 1 or 2 etc. up to your total world count which is " + worldCount;
 
     public OOTRSpoiler(String spoilerIn, boolean isPath) throws IOException, ParseException {
         String spoilerText;
@@ -30,13 +34,7 @@ public class OOTRSpoiler {
         spoilerJSON = (JSONObject)parser.parse(spoilerText);
 
         if (this.isValid()) {
-            String worldCountStr = (String)this.getSettings("world_count");
-            try {
-                worldCount = Integer.parseInt(worldCountStr);
-            }
-            catch(NumberFormatException e) {
-                worldCount = -1;
-            }
+            worldCount = (long)this.getSettings("world_count");
         }
         else {
             worldCount = -1;
@@ -129,11 +127,28 @@ public class OOTRSpoiler {
 
     /**
      * Returns individual randomized settings of the randomizer seed, or all settings in a JSON Object
-     * @param setting "all" for all settings, or the name/alias of a specific desired setting
+     * args[1] = world num if multiworld. or name/alias of specific desired setting
+     * args[2] = name/alias of specific desired setting if multiworld.
+     * @param args "all" for all settings, or the name/alias of a specific desired setting
      * @return the selected settings that were set upon the randomizer, or null if not found.
      */
-    public Object getRandomizedSettings(String setting) {
-        JSONObject settingsObj = (JSONObject)spoilerJSON.get("randomized_settings");
+    public Object getRandomizedSettings(String[] args) {
+
+        JSONObject obj = (JSONObject)spoilerJSON.get("randomized_settings");
+        JSONObject settingsObj;
+        String setting;
+
+        /* Determine which arg to use based on whether it is multiworld or not
+         * if multiworld, grab JSONObject for that world. */
+        if (worldCount > 1) {
+            settingsObj = (JSONObject)obj.get("World " + args[1]);
+            setting = (args.length < 3) ? "all" : args[2];
+        }
+        else {
+            settingsObj = obj;
+            setting = (args.length < 2) ? "all" : args[1];
+        }
+
 
         if (setting.equals("all")) {
             return jsonObjToString(settingsObj);
@@ -157,9 +172,29 @@ public class OOTRSpoiler {
         return null;
     }
 
+    /**
+     * Returns amount of an specified item in a seed, or all amounts if non specified
+     * args[1] = world num if multiworld. or name of item.
+     * args[2] = name of item if multiworld.
+     * @param args "all" for all items, or the name/alias of a specific desired item
+     * @return the selected settings that were set upon the randomizer, or null if not found.
+     */
+    public Object getItemPool(String[] args) {
+        JSONObject obj = (JSONObject)spoilerJSON.get("item_pool");
+        JSONObject itemPoolObj;
+        String itemName;
 
-    public Object getItemPool(String itemName) {
-        JSONObject itemPoolObj = (JSONObject)spoilerJSON.get("item_pool");
+        /* Determine which arg to use based on whether it is multiworld or not
+         * if multiworld, grab JSONObject for that world. */
+        if (worldCount > 1) {
+            itemPoolObj = (JSONObject)obj.get("World " + args[1]);
+            itemName = (args.length < 3) ? "all" : args[2];
+        }
+        else {
+            itemPoolObj = obj;
+            itemName = (args.length < 2) ? "all" : args[1];
+        }
+
 
         if (itemName.equals("all")) {
             return jsonObjToString(itemPoolObj);
@@ -236,19 +271,12 @@ public class OOTRSpoiler {
                 }
 
             case "randomized_settings":
-                if (args.length > 1) {
-                    return getRandomizedSettings(args[1]);
-                }
-                else {
-                    return getRandomizedSettings("all");
-                }
+                verifyMultiworldArgs(args);
+                return getRandomizedSettings(args);
+
             case "item_pool":
-                if (args.length > 1) {
-                    return getItemPool(args[1]);
-                }
-                else {
-                    return getItemPool("all");
-                }
+                verifyMultiworldArgs(args);
+                return getItemPool(args);
             default:
                 return null;
         }
@@ -269,6 +297,37 @@ public class OOTRSpoiler {
         res = res.replaceAll(",", "\n");
 
         return res;
+    }
+
+
+    /**
+     * If this spoiler log represents a multiworld, this method ensures
+     * the correctness of args[1] which should specify a world number.
+     * It is correct if it is an integer between 1 and worldCount (incl)
+     * If not correct, throws an IllegalArgumentException
+     *
+     * @param args arguments to test
+     */
+    private void verifyMultiworldArgs(String[] args) {
+
+        /*  must specify a world if multiworld */
+        if (worldCount > 1 && args.length < 2) {
+            throw new IllegalArgumentException(multiworld_err_msg);
+        }
+
+        /* args[1] must be an integer within 1 <= x <= world_count range */
+        if (worldCount > 1) {
+            int count;
+            try {
+                count = Integer.parseInt(args[1]);
+            }
+            catch (NumberFormatException e) {
+                throw new IllegalArgumentException(multiworld_err_msg);
+            }
+            if (count > worldCount) {
+                throw new IllegalArgumentException(multiworld_err_msg);
+            }
+        }
     }
 
 }
