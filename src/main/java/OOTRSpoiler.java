@@ -13,7 +13,7 @@ public class OOTRSpoiler {
 
     private JSONObject spoilerJSON; /* Content of spoiler log, in a ready to use JSON.simple object */
 
-    private String version; /* Version representing the spoiler log */
+    private int worldCount; /* How many worlds this log represents */
 
     public OOTRSpoiler(String spoilerIn, boolean isPath) throws IOException, ParseException {
         String spoilerText;
@@ -30,10 +30,16 @@ public class OOTRSpoiler {
         spoilerJSON = (JSONObject)parser.parse(spoilerText);
 
         if (this.isValid()) {
-            version = this.getVersion();
+            String worldCountStr = (String)this.getSettings("world_count");
+            try {
+                worldCount = Integer.parseInt(worldCountStr);
+            }
+            catch(NumberFormatException e) {
+                worldCount = -1;
+            }
         }
         else {
-            version = "no version found";
+            worldCount = -1;
         }
 
     }
@@ -100,7 +106,7 @@ public class OOTRSpoiler {
         JSONObject settingsObj = (JSONObject)spoilerJSON.get("settings");
 
         if (setting.equals("all")) {
-            return settingsObj;
+            return jsonObjToString(settingsObj);
         }
 
         /*
@@ -130,7 +136,7 @@ public class OOTRSpoiler {
         JSONObject settingsObj = (JSONObject)spoilerJSON.get("randomized_settings");
 
         if (setting.equals("all")) {
-            return settingsObj;
+            return jsonObjToString(settingsObj);
         }
 
         /*
@@ -152,16 +158,11 @@ public class OOTRSpoiler {
     }
 
 
-    public Object getStartingItems() {
-        return (JSONObject)spoilerJSON.get("starting_items");
-    }
-
-
     public Object getItemPool(String itemName) {
         JSONObject itemPoolObj = (JSONObject)spoilerJSON.get("item_pool");
 
         if (itemName.equals("all")) {
-            return itemPoolObj;
+            return jsonObjToString(itemPoolObj);
         }
 
         List<String> chosenItem = null;
@@ -185,7 +186,7 @@ public class OOTRSpoiler {
             }
         }
 
-        return relevantItems;
+        return jsonObjToString(relevantItems);
     }
 
     /**
@@ -230,19 +231,44 @@ public class OOTRSpoiler {
                 if (args.length > 1) {
                     return getSettings(args[1]);
                 }
-                throw new IllegalArgumentException("settings: not enough arguments. A string is required.");
+                else {
+                    return getSettings("all");
+                }
+
             case "randomized_settings":
                 if (args.length > 1) {
                     return getRandomizedSettings(args[1]);
                 }
-                throw new IllegalArgumentException("settings: not enough arguments. A string is required.");
-            case "starting_items":
-                return getStartingItems();
+                else {
+                    return getRandomizedSettings("all");
+                }
             case "item_pool":
-
+                if (args.length > 1) {
+                    return getItemPool(args[1]);
+                }
+                else {
+                    return getItemPool("all");
+                }
             default:
                 return null;
         }
+    }
+
+
+    /**
+     * Converts a jsonObject into a better-formatted string to display.
+     * @param obj jsonObject to read information from and convert
+     * @return a formatted string with all info from obj
+     */
+    private String jsonObjToString(JSONObject obj) {
+        String objStr = obj.toString();
+        String res = "";
+
+        res = objStr.replaceAll("\\{", "");
+        res = res.replaceAll("\\}", "");
+        res = res.replaceAll(",", "\n");
+
+        return res;
     }
 
 }

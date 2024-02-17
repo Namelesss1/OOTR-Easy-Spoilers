@@ -28,6 +28,7 @@ public class Main {
 
         spoilerInput = scanner.nextLine();
         try {
+            spoilerInput = "samplespoilers/multiworldv8.json"; //FOR DEBUGGING
             spoiler = new OOTRSpoiler(spoilerInput, isPath);
         }
         catch (Exception e) {
@@ -43,7 +44,7 @@ public class Main {
             for (int i = 0; i < spoilerArgs.length; i++) {
                 spoilerArgs[i] = spoilerArgs[i].replaceAll("\"", "").trim();
             }
-            System.out.println(Arrays.toString(spoilerArgs));
+            System.out.println("Arg Tokens: " + Arrays.toString(spoilerArgs));
 
             System.out.println(spoiler.get(spoilerArgs));
             System.out.println("-------------------------------");
