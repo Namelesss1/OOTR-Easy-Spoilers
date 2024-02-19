@@ -3,7 +3,7 @@ import java.util.Map;
 
 public class Keys {
 
-    public static final String[] KEYS_V6_2_0 = {
+    public static final String[] KEYS = {
             ":version",
             "file_hash",
             ":seed",

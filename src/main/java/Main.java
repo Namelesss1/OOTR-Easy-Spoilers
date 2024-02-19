@@ -46,7 +46,7 @@ public class Main {
             }
             System.out.println("Arg Tokens: " + Arrays.toString(spoilerArgs));
 
-            System.out.println(spoiler.get(spoilerArgs));
+            System.out.println(OOTRSpoiler.jsonObjToString(spoiler.get(spoilerArgs)));
             System.out.println("-------------------------------");
         }
 

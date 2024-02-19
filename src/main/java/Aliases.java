@@ -1,6 +1,3 @@
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * This class provides aliases of many things including keys in the spoiler log,
  * names of areas in the map, etc.
@@ -14,127 +11,138 @@ import java.util.Map;
  */
 public class Aliases {
 
+    public static enum AliasType {
+        KEYS,
+        SETTINGS,
+        ITEMS,
+        MULTI_EXIT,
+        SINGLE_EXIT
+    }
+
+
     /**
-     * Get a map representing each main key in the spoiler JSON mapped to possible
+     * Get an array representing each main key in the spoiler JSON mapped to possible
      * aliases.
-     * @return map of key names -> all aliases
+     * @return Array of all aliases of a key
      */
-    public static Map<String, String[]> keyAliases() {
-        Map<String, String[]> aliases = new HashMap<>();
-        aliases.put("seed", SEED);
-        aliases.put("version", VERSION);
-        aliases.put("file_hash", FILE_HASH);
-        aliases.put("settings_string", SETTINGS_STRING);
-        aliases.put("enable_distribution_file", ENABLE_DISTRIBUTION_FILE);
-        aliases.put("settings", SETTINGS);
-        aliases.put("randomized_settings", RANDOMIZED_SETTINGS);
-        aliases.put("starting_items", STARTING_ITEMS);
-        aliases.put("item_pool", ITEM_POOL);
-        aliases.put("dungeons", DUNGEONS);
-        aliases.put("trials", TRIALS);
-        aliases.put("songs", SONGS);
-        aliases.put("entrances", ENTRANCES);
-        aliases.put("locations", LOCATIONS);
-        aliases.put("woth_locations", WOTH_LOCATIONS);
-        aliases.put("goal_locations", GOAL_LOCATIONS);
-        aliases.put("barren_regions", BARREN_REGIONS);
-        aliases.put("gossip_stones", GOSSIP_STONES);
-        aliases.put("playthrough", PLAYTHROUGH);
+    public static String[][] keyAliases() {
+        String[][] aliases = {
+        SEED,
+        VERSION,
+        FILE_HASH,
+        SETTINGS_STRING,
+        ENABLE_DISTRIBUTION_FILE,
+        SETTINGS,
+        RANDOMIZED_SETTINGS,
+        STARTING_ITEMS,
+        ITEM_POOL,
+        DUNGEONS,
+        TRIALS,
+        SONGS,
+        ENTRANCES,
+        LOCATIONS,
+        WOTH_LOCATIONS,
+        GOAL_LOCATIONS,
+        BARREN_REGIONS,
+        GOSSIP_STONES,
+        PLAYTHROUGH
+        };
 
         return aliases;
     }
 
 
     /**
-     * Get a map representing each setting key in the spoiler JSON mapped to possible
+     * Get an array representing each setting key in the spoiler JSON mapped to possible
      * aliases.
-     * @return map of randomizer settings key names -> all aliases
+     * @return array of all aliases of randomizer settings key names
      */
-    public static Map<String, String[]> settingsAliases() {
-        Map<String, String[]> aliases = new HashMap<>();
-        aliases.put("world_count", WORLD_COUNT);
-        aliases.put("create_spoiler", CREATE_SPOILER);
-        aliases.put("randomize_settings", RANDOMIZE_SETTINGS);
-        aliases.put("open_forest", OPEN_FOREST);
-        aliases.put("open_kakariko", OPEN_KAKARIKO);
-        aliases.put("open_door_of_time", OPEN_DOOR_OF_TIME);
-        aliases.put("zora_fountain", ZORA_FOUNTAIN);
-        aliases.put("gerudo_fortress", GERUDO_FORTRESS);
-        aliases.put("bridge", BRIDGE);
-        aliases.put("bridge_tokens", BRIDGE_TOKENS);
-        aliases.put("triforce_hunt", TRIFORCE_HUNT);
-        aliases.put("logic_rules", LOGIC_RULES);
-        aliases.put("reachable_locations", REACHABLE_LOCATIONS);
-        aliases.put("bombchus_in_logic", BOMBCHUS_IN_LOGIC);
-        aliases.put("one_item_per_dungeon", ONE_ITEM_PER_DUNGEON);
-        aliases.put("trials_random", TRIALS_RANDOM);
-        aliases.put("skip_child_zelda", SKIP_CHILD_ZELDA);
-        aliases.put("no_escape_sequence", NO_ESCAPE_SEQUENCE);
-        aliases.put("no_guard_stealth", NO_GUARD_STEALTH);
-        aliases.put("no_epona_race", NO_EPONA_RACE);
-        aliases.put("skip_some_minigame_phases", SKIP_SOME_MINIGAME_PHASES);
-        aliases.put("useful_cutscenes", USEFUL_CUTSCENES);
-        aliases.put("complete_mask_quest", COMPLETE_MASK_QUEST);
-        aliases.put("fast_chests", FAST_CHESTS);
-        aliases.put("logic_no_night_tokens_without_suns_song", LOGIC_NO_NIGHT_TOKENS_WITHOUT_SUN_SONG);
-        aliases.put("free_scarecrow", FREE_SCARECROW);
-        aliases.put("fast_bunny_hood", FAST_BUNNY_HOOD);
-        aliases.put("start_with_rupees", START_WITH_RUPEES);
-        aliases.put("start_with_consumables", START_WITH_CONSUMABLES);
-        aliases.put("starting_hearts", STARTING_HEARTS);
-        aliases.put("chicken_count_random", CHICKEN_COUNT_RANDOM);
-        aliases.put("big_poe_count_random", BIG_POE_COUNT_RANDOM);
-        aliases.put("big_poe_count", BIG_POE_COUNT);
-        aliases.put("shuffle_kokiri_sword", SHUFFLE_KOKIRI_SWORD);
-        aliases.put("shuffle_ocarinas", SHUFFLE_OCARINAS);
-        aliases.put("shuffle_gerudo_card", SHUFFLE_GERUDO_CARD);
-        aliases.put("shuffle_song_items", SHUFFLE_SONG_ITEMS);
-        aliases.put("shuffle_cows", SHUFFLE_COWS);
-        aliases.put("shuffle_beans", SHUFFLE_BEANS);
-        aliases.put("shuffle_medigoron_carpet_salesman", SHUFFLE_MEDIGORON_CARPET_SALESMAN);
-        aliases.put("shuffle_interior_entrances", SHUFFLE_INTERIOR_ENTRANCES);
-        aliases.put("shuffle_grotto_entrances", SHUFFLE_GROTO_ENTRANCES);
-        aliases.put("shuffle_dungeon_entrances", SHUFFLE_DUNGEON_ENTRANCES);
-        aliases.put("shuffle_overworld_entrances", SHUFFLE_OVERWORLD_ENTRANCES);
-        aliases.put("owl_drops", OWL_DROPS);
-        aliases.put("warp_songs", WARP_SONGS);
-        aliases.put("spawn_positions", SPAWN_POSITIONS);
-        aliases.put("shuffle_scrubs", SHUFFLE_SCRUBS);
-        aliases.put("shopsanity", SHOPSANITY);
-        aliases.put("tokensanity", TOKENSANITY);
-        aliases.put("shuffle_mapcompass", SHUFFLE_MAPCOMPASS);
-        aliases.put("shuffle_smallkeys", SHUFFLE_SMALLKEYS);
-        aliases.put("shuffle_bosskeys", SHUFFLE_BOSSKEYS);
-        aliases.put("shuffle_ganon_bosskey", SHUFFLE_GANON_BOSSKEY);
-        aliases.put("lacs_condition", LACS_CONDITION);
-        aliases.put("enhance_map_compass", ENHANCE_MAP_COMPASS);
-        aliases.put("mq_dungeons_random", MQ_DUNGEONS_RANDOM);
-        aliases.put("mq_dungeons", MQ_DUNGEONS);
-        aliases.put("disabled_locations", DISABLED_LOCATIONS);
-        aliases.put("allowed_tricks", ALLOWED_TRICKS);
-        aliases.put("logic_earliest_adult_trade", LOGIC_EARLIEST_ADULT_TRADE);
-        aliases.put("logic_latest_adult_trade", LOGIC_LATEST_ADULT_TRADE);
-        aliases.put("starting_equipment", STARTING_EQUIPMENT);
-        aliases.put("starting_items", STARTING_ITEMS_SETTING);
-        aliases.put("starting_songs", STARTING_SONGS);
-        aliases.put("ocarina_songs", OCARINA_SONGS);
-        aliases.put("correct_chest_sizes", CORRECT_CHEST_SIZES);
-        aliases.put("clearer_hints", CLEARER_HINTS);
-        aliases.put("no_collectible_hearts", NO_COLLECTIBLE_HEARTS);
-        aliases.put("hints", HINTS);
-        aliases.put("hint_dist", HINT_DIST);
-        aliases.put("item_hints", ITEM_HINTS);
-        aliases.put("hint_dist_user", HINT_DIST_USER);
-        aliases.put("text_shuffle", TEXT_SHUFFLE);
-        aliases.put("misc_hints", MISC_HINTS);
-        aliases.put("ice_trap_appearance", ICE_TRAP_APPEARANCE);
-        aliases.put("junk_ice_traps", JUNK_ICE_TRAPS);
-        aliases.put("item_pool_value", ITEM_POOL_VALUE);
-        aliases.put("damage_multiplier", DAMAGE_MULTIPLIER);
-        aliases.put("starting_tod", STARTING_TOD);
-        aliases.put("starting_age", STARTING_AGE);
-        aliases.put("chicken_count", CHICKEN_COUNT);
-        aliases.put("trials", TRIALS_SETTING);
+    public static String[][] settingsAliases() {
+        String[][] aliases = {
+        WORLD_COUNT,
+        CREATE_SPOILER,
+        RANDOMIZE_SETTINGS,
+        OPEN_FOREST,
+        OPEN_KAKARIKO,
+        OPEN_DOOR_OF_TIME,
+        ZORA_FOUNTAIN,
+        GERUDO_FORTRESS,
+        BRIDGE,
+        BRIDGE_TOKENS,
+        TRIFORCE_HUNT,
+        LOGIC_RULES,
+        REACHABLE_LOCATIONS,
+        BOMBCHUS_IN_LOGIC,
+        ONE_ITEM_PER_DUNGEON,
+        TRIALS_RANDOM,
+        SKIP_CHILD_ZELDA,
+        NO_ESCAPE_SEQUENCE,
+        NO_GUARD_STEALTH,
+        NO_EPONA_RACE,
+        SKIP_SOME_MINIGAME_PHASES,
+        USEFUL_CUTSCENES,
+        COMPLETE_MASK_QUEST,
+        FAST_CHESTS,
+        LOGIC_NO_NIGHT_TOKENS_WITHOUT_SUN_SONG,
+        FREE_SCARECROW,
+        FAST_BUNNY_HOOD,
+        START_WITH_RUPEES,
+        START_WITH_CONSUMABLES,
+        STARTING_HEARTS,
+        CHICKEN_COUNT_RANDOM,
+        BIG_POE_COUNT_RANDOM,
+        BIG_POE_COUNT,
+        SHUFFLE_KOKIRI_SWORD,
+        SHUFFLE_OCARINAS,
+        SHUFFLE_GERUDO_CARD,
+        SHUFFLE_SONG_ITEMS,
+        SHUFFLE_COWS,
+        SHUFFLE_BEANS,
+        SHUFFLE_MEDIGORON_CARPET_SALESMAN,
+        SHUFFLE_INTERIOR_ENTRANCES,
+        SHUFFLE_GROTO_ENTRANCES,
+        SHUFFLE_DUNGEON_ENTRANCES,
+        SHUFFLE_OVERWORLD_ENTRANCES,
+        OWL_DROPS,
+        WARP_SONGS,
+        SPAWN_POSITIONS,
+        SHUFFLE_SCRUBS,
+        SHOPSANITY,
+        TOKENSANITY,
+        SHUFFLE_MAPCOMPASS,
+        SHUFFLE_SMALLKEYS,
+        SHUFFLE_BOSSKEYS,
+        SHUFFLE_GANON_BOSSKEY,
+        LACS_CONDITION,
+        ENHANCE_MAP_COMPASS,
+        MQ_DUNGEONS_RANDOM,
+        MQ_DUNGEONS,
+        DISABLED_LOCATIONS,
+        ALLOWED_TRICKS,
+        LOGIC_EARLIEST_ADULT_TRADE,
+        LOGIC_LATEST_ADULT_TRADE,
+        STARTING_EQUIPMENT,
+        STARTING_ITEMS_SETTING,
+        STARTING_SONGS,
+        OCARINA_SONGS,
+        CORRECT_CHEST_SIZES,
+        CLEARER_HINTS,
+        NO_COLLECTIBLE_HEARTS,
+        HINTS,
+        HINT_DIST,
+        ITEM_HINTS,
+        HINT_DIST_USER,
+        TEXT_SHUFFLE,
+        MISC_HINTS,
+        ICE_TRAP_APPEARANCE,
+        JUNK_ICE_TRAPS,
+        ITEM_POOL_VALUE,
+        DAMAGE_MULTIPLIER,
+        STARTING_TOD,
+        STARTING_AGE,
+        CHICKEN_COUNT,
+        TRIALS_SETTING,
+        };
 
         return aliases;
     }
@@ -715,4 +723,27 @@ public class Aliases {
     COLOSSUS_GROTTO = {"Colossus Grotto", "Colossus hole"},
     GRAVEYARD_SHIELD_GRAVE = {"Graveyard Shield Grave", "Shield Grave", "redead grave"};
 
+
+    /**
+     * Returns a list or map of aliases
+      * @param alias which alias type to retrieve
+     * @return A list or map of aliases
+     */
+    public static String[][] getAliases(AliasType alias) {
+
+        switch (alias) {
+            case KEYS:
+                return keyAliases();
+            case ITEMS:
+                return itemAliases();
+            case SETTINGS:
+                return settingsAliases();
+            case MULTI_EXIT:
+                return getMultiExitMapAliases();
+            case SINGLE_EXIT:
+                return getSingleExitMapAliases();
+        }
+
+        return null;
+    }
 }
